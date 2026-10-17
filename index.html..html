@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Misi Cilik: Jelajah Pendidikan Malaysia</title>
+<style>
+  :root { --ink:#203047; --blue:#2864dc; --purple:#7653c9; --cream:#fffaf0; --green:#21865b; --red:#c94b55; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family: "Trebuchet MS", Arial, sans-serif; color:var(--ink); background:linear-gradient(135deg,#e8f5ff,#fff4dc 55%,#f1eaff); min-height:100vh; }
+  .wrap { width:min(940px,94%); margin:24px auto; }
+  .hero { background:linear-gradient(120deg,#2864dc,#7653c9); color:white; padding:26px; border-radius:24px; box-shadow:0 12px 28px #263c6630; position:relative; overflow:hidden; }
+  .hero:after { content:"📚 ✏️ 🎓"; position:absolute; right:20px; bottom:12px; font-size:clamp(22px,4vw,38px); opacity:.9; }
+  h1 { margin:0 0 8px; font-size:clamp(27px,5vw,42px); }
+  .hero p { max-width:680px; margin:0; line-height:1.55; }
+  .panel { background:#ffffffed; border:2px solid #ffffff; border-radius:22px; padding:22px; margin-top:18px; box-shadow:0 8px 22px #263c6612; }
+  .topline { display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px; align-items:center; margin-bottom:14px; }
+  .pill { border-radius:999px; padding:8px 13px; background:#edf2ff; color:#284da0; font-weight:700; }
+  .progress { height:12px; background:#e7eaf1; border-radius:999px; overflow:hidden; margin:12px 0 22px; }
+  .bar { height:100%; width:0%; background:linear-gradient(90deg,#1da777,#74d6a9); transition:width .25s ease; }
+  .question { font-size:clamp(20px,3vw,27px); line-height:1.4; margin:12px 0 18px; }
+  .answers { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  button { font:inherit; cursor:pointer; border:0; border-radius:14px; padding:14px 16px; transition:transform .12s, box-shadow .12s, background .12s; }
+  button:focus-visible { outline:3px solid #ffb703; outline-offset:3px; }
+  .answer { text-align:left; background:#f5f7fc; border:2px solid #e0e6f3; min-height:64px; font-weight:700; color:var(--ink); }
+  .answer:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 6px 14px #243c661a; border-color:#9db5ef; }
+  .answer:disabled { cursor:default; opacity:1; }
+  .answer.correct { background:#e2f7eb; border-color:#36a56e; }
+  .answer.wrong { background:#fff0f0; border-color:#dc777d; }
+  .feedback { min-height:58px; padding:13px 15px; border-radius:14px; background:#f5f7fc; line-height:1.5; margin-top:14px; }
+  .feedback.good { background:#e2f7eb; }
+  .feedback.bad { background:#fff0f0; }
+  .actions { display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; margin-top:16px; }
+  .primary { color:white; background:var(--blue); font-weight:800; box-shadow:0 5px 12px #2864dc33; }
+  .primary:hover { background:#194fb9; }
+  .secondary { background:#edf0f7; color:var(--ink); font-weight:700; }
+  .hidden { display:none !important; }
+  .intro-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:18px 0; }
+  .mini { background:#f8faff; border:1px solid #e2e8f4; border-radius:16px; padding:15px; }
+  .mini strong { display:block; margin-bottom:5px; }
+  .bigemoji { font-size:28px; display:block; margin-bottom:7px; }
+  .result-score { font-size:clamp(38px,7vw,58px); font-weight:900; color:var(--blue); margin:6px 0; }
+  .stars { font-size:34px; letter-spacing:5px; }
+  .small { font-size:14px; color:#58667a; line-height:1.5; }
+  footer { text-align:center; color:#526075; font-size:13px; padding:18px 6px 8px; }
+  @media(max-width:620px) { .answers,.intro-grid { grid-template-columns:1fr; } .hero:after { opacity:.25; } .panel { padding:17px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>🇲🇾 Misi Cilik: Jelajah Pendidikan Malaysia</h1>
+    <p>Jom jadi Penjelajah Ilmu! Jawab soalan tentang sejarah pendidikan, jenis sekolah dan tokoh pendidikan Malaysia. Kumpulkan mata dan lengkapkan misi!</p>
+  </header>
+
+  <main>
+    <section id="intro" class="panel">
+      <h2>Selamat datang, Penjelajah Ilmu! 🌟</h2>
+      <p>Permainan kuiz ini direka untuk membantu murid sekolah rendah mengenali perkembangan pendidikan di Malaysia dengan cara yang menyeronokkan.</p>
+      <div class="intro-grid">
+        <div class="mini"><span class="bigemoji">🧠</span><strong>Fikir dan pilih</strong><span class="small">Pilih satu jawapan yang paling tepat bagi setiap soalan.</span></div>
+        <div class="mini"><span class="bigemoji">⭐</span><strong>Kumpulkan mata</strong><span class="small">Jawapan yang betul mendapat 10 mata.</span></div>
+        <div class="mini"><span class="bigemoji">🏅</span><strong>Lengkapkan misi</strong><span class="small">Baca maklum balas untuk belajar daripada setiap jawapan.</span></div>
+      </div>
+      <p><strong>Petua:</strong> Baca soalan dengan teliti. Tidak mengapa jika tersilap—setiap soalan ialah peluang untuk belajar!</p>
+      <button class="primary" onclick="startGame()">Mulakan permainan 🚀</button>
+    </section>
+
+    <section id="game" class="panel hidden" aria-live="polite">
+      <div class="topline">
+        <span class="pill" id="round">Misi 1 daripada 10</span>
+        <span class="pill">⭐ Mata: <span id="score">0</span></span>
+      </div>
+      <div class="progress" aria-label="Kemajuan permainan"><div class="bar" id="bar"></div></div>
+      <div class="small" id="category">Kategori: Sejarah pendidikan</div>
+      <h2 class="question" id="question"></h2>
+      <div class="answers" id="answers"></div>
+      <div id="feedback" class="feedback" role="status">Pilih jawapan anda.</div>
+      <div class="actions">
+        <button class="secondary" onclick="quitGame()">Kembali ke halaman utama</button>
+        <button id="next" class="primary" onclick="nextQuestion()" disabled>Soalan seterusnya →</button>
+      </div>
+    </section>
+
+    <section id="result" class="panel hidden" aria-live="polite">
+      <h2>🎉 Misi selesai!</h2>
+      <p>Syabas kerana menyertai Jelajah Pendidikan Malaysia.</p>
+      <div class="stars" id="stars">⭐⭐⭐</div>
+      <div class="result-score"><span id="finalScore">0</span>/100</div>
+      <h3 id="resultTitle">Hebat!</h3>
+      <p id="resultText"></p>
+      <div class="feedback" id="resultTip"></div>
+      <div class="actions">
+        <button class="secondary" onclick="reviewAnswers()">Lihat semula jawapan</button>
+        <button class="primary" onclick="startGame()">Main semula 🔁</button>
+      </div>
+      <div id="review" class="hidden"></div>
+    </section>
+  </main>
+  <footer>Permainan pendidikan • Bahasa Melayu Standard • Boleh dimainkan melalui pelayar web pada komputer atau telefon</footer>
+</div>
+<script>
+const questions = [
+ {cat:"Jenis sekolah",q:"Apakah bahasa pengantar utama yang digunakan di kebanyakan sekolah Melayu pada zaman penjajahan British?",a:["Bahasa Melayu","Bahasa Perancis","Bahasa Jepun","Bahasa Arab sahaja"],correct:0,why:"Sekolah Melayu menggunakan bahasa Melayu sebagai bahasa pengantar. Kandungan pembelajaran asas lazimnya merangkumi membaca, menulis dan mengira."},
+ {cat:"Jenis sekolah",q:"Sekolah Tamil pada zaman British banyak dibangunkan di kawasan manakah?",a:["Kawasan ladang","Kawasan kutub","Kawasan istana sahaja","Di atas kapal"],correct:0,why:"Banyak sekolah Tamil ditubuhkan di kawasan ladang untuk anak-anak pekerja India, walaupun kemudahan dan peluang pendidikan berbeza-beza."},
+ {cat:"Jenis sekolah",q:"Apakah salah satu ciri sekolah Inggeris pada zaman penjajahan British?",a:["Bahasa Inggeris digunakan sebagai bahasa pengantar","Semua pelajaran diajar dalam bahasa isyarat sahaja","Sekolah hanya dibuka pada waktu malam","Tiada mata pelajaran akademik"],correct:0,why:"Sekolah Inggeris menggunakan bahasa Inggeris dan menjadi salah satu laluan kepada pendidikan lanjutan serta pekerjaan tertentu."},
+ {cat:"Sejarah pendidikan",q:"Bilakah Persekutuan Tanah Melayu mencapai kemerdekaan?",a:["31 Ogos 1957","16 September 1963","1 Januari 1970","31 Ogos 1965"],correct:0,why:"Persekutuan Tanah Melayu mencapai kemerdekaan pada 31 Ogos 1957. Malaysia pula dibentuk pada 16 September 1963."},
+ {cat:"Dasar pendidikan",q:"Apakah kepentingan Penyata Razak 1956 dalam sejarah pendidikan Malaysia?",a:["Menjadi asas penting pembentukan sistem pendidikan kebangsaan","Menghapuskan semua sekolah","Menubuhkan universiti pertama di dunia","Menggantikan semua bahasa dengan bahasa asing"],correct:0,why:"Penyata Razak 1956 menjadi asas penting usaha membentuk sistem pendidikan kebangsaan dan memupuk perpaduan."},
+ {cat:"Tokoh pendidikan",q:"Za'ba terkenal dengan sumbangannya dalam bidang apakah?",a:["Bahasa Melayu dan penulisan","Penerokaan angkasa lepas","Pembinaan kapal terbang","Sukan permotoran"],correct:0,why:"Za'ba ialah tokoh bahasa, penulis dan pendidik yang banyak menyumbang kepada perkembangan bahasa Melayu."},
+ {cat:"Tokoh pendidikan",q:"Apakah bidang yang sangat berkait dengan sumbangan Ungku Abdul Aziz?",a:["Ekonomi, pendidikan tinggi dan koperasi","Pembuatan filem animasi sahaja","Penerokaan dasar laut","Reka bentuk permainan video sahaja"],correct:0,why:"Ungku Abdul Aziz ialah ahli ekonomi dan tokoh akademik yang menyumbang kepada pendidikan tinggi serta pemikiran tentang koperasi dan kemiskinan."},
+ {cat:"Pendidikan di Malaysia",q:"Apakah tujuan penting pendidikan kebangsaan?",a:["Membangunkan ilmu, kemahiran dan perpaduan","Memisahkan semua murid selama-lamanya","Menghalang murid daripada bertanya","Mengajar satu mata pelajaran sahaja"],correct:0,why:"Pendidikan membantu mengembangkan potensi murid, membina kemahiran dan menyokong perpaduan masyarakat."},
+ {cat:"Sabah dan Sarawak",q:"Bilakah Sabah dan Sarawak menyertai pembentukan Malaysia?",a:["16 September 1963","31 Ogos 1957","1 Januari 1946","31 Disember 1975"],correct:0,why:"Sabah dan Sarawak menyertai pembentukan Malaysia pada 16 September 1963. Perkembangan pendidikan di kedua-dua negeri berlaku secara berperingkat."},
+ {cat:"Sikap penjelajah ilmu",q:"Apakah sikap yang membantu kita belajar sejarah pendidikan dengan baik?",a:["Menyemak sumber dan menghormati sumbangan orang lain","Menerima semua maklumat tanpa menyemak","Mengubah tarikh sesuka hati","Tidak mahu mendengar pandangan orang lain"],correct:0,why:"Menyemak sumber yang boleh dipercayai dan menghormati pandangan orang lain ialah amalan penting ketika mempelajari sejarah."}
+];
+let order=[], index=0, score=0, answered=false, records=[];
+function startGame(){
+ order=questions.map((_,i)=>i);
+ // Susunan tetap supaya guru mudah membincangkan jawapan bersama murid.
+ index=0;score=0;answered=false;records=[];
+ document.getElementById('intro').classList.add('hidden');
+ document.getElementById('result').classList.add('hidden');
+ document.getElementById('game').classList.remove('hidden');
+ renderQuestion();
+}
+function renderQuestion(){
+ answered=false;
+ const q=questions[order[index]];
+ document.getElementById('round').textContent=`Misi ${index+1} daripada ${order.length}`;
+ document.getElementById('score').textContent=score;
+ document.getElementById('bar').style.width=(index/order.length*100)+'%';
+ document.getElementById('category').textContent='Kategori: '+q.cat;
+ document.getElementById('question').textContent=q.q;
+ document.getElementById('feedback').className='feedback';
+ document.getElementById('feedback').textContent='Pilih jawapan anda.';
+ document.getElementById('next').disabled=true;
+ document.getElementById('next').textContent=index===order.length-1?'Lihat keputusan 🏆':'Soalan seterusnya →';
+ const holder=document.getElementById('answers'); holder.innerHTML='';
+ q.a.forEach((answer,i)=>{
+   const b=document.createElement('button'); b.className='answer'; b.textContent=String.fromCharCode(65+i)+'. '+answer;
+   b.onclick=()=>chooseAnswer(i,b); holder.appendChild(b);
+ });
+}
+function chooseAnswer(choice,button){
+ if(answered)return;
+ answered=true;
+ const q=questions[order[index]], correct=choice===q.correct;
+ if(correct)score+=10;
+ records.push({q:q.q,chosen:q.a[choice],correctAnswer:q.a[q.correct],correct,why:q.why});
+ [...document.querySelectorAll('.answer')].forEach((b,i)=>{
+   b.disabled=true;
+   if(i===q.correct)b.classList.add('correct');
+   else if(i===choice)b.classList.add('wrong');
+ });
+ const fb=document.getElementById('feedback');
+ fb.className='feedback '+(correct?'good':'bad');
+ fb.textContent=(correct?'Betul! Anda memperoleh 10 mata. ⭐ ':'Belum tepat. Jangan putus asa! 💪 ')+q.why;
+ document.getElementById('score').textContent=score;
+ document.getElementById('bar').style.width=((index+1)/order.length*100)+'%';
+ document.getElementById('next').disabled=false;
+}
+function nextQuestion(){
+ if(!answered)return;
+ index++;
+ if(index>=order.length){showResult();return;}
+ renderQuestion();
+}
+function showResult(){
+ document.getElementById('game').classList.add('hidden');
+ document.getElementById('result').classList.remove('hidden');
+ document.getElementById('finalScore').textContent=score;
+ document.getElementById('bar').style.width='100%';
+ const title=score===100?'Hebat sekali, Juara Ilmu!':score>=70?'Syabas, Penjelajah Bijak!':score>=40?'Bagus! Teruskan usaha!':'Terus mencuba, anda pasti boleh!';
+ document.getElementById('resultTitle').textContent=title;
+ document.getElementById('stars').textContent=score===100?'⭐⭐⭐':score>=70?'⭐⭐☆':score>=40?'⭐☆☆':'🌱';
+ document.getElementById('resultText').textContent=score===100?'Anda menjawab semua soalan dengan betul. Teruskan sikap ingin tahu!':`Anda menjawab ${score/10} daripada 10 soalan dengan betul. Cuba ulang kaji maklum balas dan main sekali lagi.`;
+ document.getElementById('resultTip').textContent='Cadangan aktiviti kelas: pilih satu fakta yang dipelajari dan terangkan kepada rakan dalam dua ayat.';
+ document.getElementById('review').classList.add('hidden');
+}
+function reviewAnswers(){
+ const r=document.getElementById('review');r.innerHTML='<h3>Semakan jawapan</h3>';
+ records.forEach((x,i)=>{
+   const box=document.createElement('div');box.className='mini';box.style.margin='10px 0';
+   const strong=document.createElement('strong');strong.textContent=`${i+1}. ${x.q}`;
+   const p=document.createElement('p');p.textContent=`Jawapan anda: ${x.chosen}. Jawapan tepat: ${x.correctAnswer}.`;
+   const small=document.createElement('p');small.className='small';small.textContent=x.why;
+   box.append(strong,p,small);r.appendChild(box);
+ });
+ r.classList.remove('hidden');
+}
+function quitGame(){
+ document.getElementById('game').classList.add('hidden');
+ document.getElementById('intro').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
